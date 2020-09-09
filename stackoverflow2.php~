@@ -1,0 +1,70 @@
+<?php
+    function buildBaseString($baseURI, $method, $params) {
+        $r = array();
+        ksort($params);
+        foreach($params as $key=>$value){
+            $r[] = "$key=" . rawurlencode($value);
+        }
+        return $method."&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
+    }
+
+    function buildAuthorizationHeader($oauth) {
+        $r = 'Authorization: OAuth ';
+        $values = array();
+        foreach($oauth as $key=>$value)
+            $values[] = "$key=\"" . rawurlencode($value) . "\"";
+        $r .= implode(', ', $values);
+        return $r;
+    }
+
+    $url = "https://api.twitter.com/1.1/search/tweets.json";
+
+    $oauth_access_token = "131070666-RmNMSERPs3cnBctNeqPpR3ZyLr4shNLPEeRWdqYr";
+    $oauth_access_token_secret = "rkH6e9jfofMbUzDfubQzY8RinOB5da7jCK6OuNmX2ySMp";
+    $consumer_key = "dp87KQIYK76rIQwHz09CDg";
+    $consumer_secret = "ZFeIqBDOri6rSYEwh6fI5BoVVg3eHKAYN806vQ";
+
+    $oauth = array( 'oauth_consumer_key' => $consumer_key,
+                    'oauth_nonce' => time(),
+                    'oauth_count' => 100,
+                    'oauth_signature_method' => 'HMAC-SHA1',
+                    'oauth_token' => $oauth_access_token,
+                    'oauth_timestamp' => time(),
+                    'oauth_version' => '1.0');
+
+    $base_info = buildBaseString($url, 'GET', $oauth);
+    $composite_key = rawurlencode($consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
+    $oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
+    $oauth['oauth_signature'] = $oauth_signature;
+
+    // Make requests
+    
+    $header = array(buildAuthorizationHeader($oauth), 'Expect:');
+    
+	 // URL error for '&' sign removed
+	 							 
+					//		 $url = $url . '?q=election&count=100'; 	                      
+               //       $url=str_replace("&amp;","&",$url);    
+    
+    $options = array( CURLOPT_HTTPHEADER => $header,
+    
+                      //CURLOPT_POSTFIELDS => $postfields,
+                     
+                      CURLOPT_HEADER => false,
+							 CURLOPT_URL => $url . "?" . str_replace("&amp;","&","q=election&count=100"),
+                      CURLOPT_RETURNTRANSFER => true,
+                      CURLOPT_SSL_VERIFYPEER => false);
+
+    $feed = curl_init();
+    curl_setopt_array($feed, $options);
+    $json = curl_exec($feed);
+    curl_close($feed);
+
+//    $twitter_data = json_decode($json);
+
+		//var_dump(json_decode($json, true));
+		echo $json;
+		
+		?>
+    
+	

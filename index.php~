@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Tweeter Analysis</title>
+<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script src="bootstrap/dist/js/bootstrap.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="container">
+	<div class="page-header text-center">
+		<h1>Twitter Analysis</h1>
+	</div>
+	<div class="col-lg-8 col-lg-offset-2" style="margin-top:60px;">
+	<form method="GET" action="stackoverflow3.php">
+		<div class="input-group">
+      	<input type="text" class="form-control" name="q" style="border-radius:0px;">
+      	<span class="input-group-btn">
+        		<button class="btn btn-default" type="submit"  style="border-radius:0px;">Go!</button>
+      	</span>
+    	</div>
+   </form>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+Twitter Mining for User Opinions
+
+1. Get Database from SentiWordNet
+2. Run the Program "AddWordsToDatabase.php"
+	This will add all the words from the database to the MySQL DB 
+with their positive and negative weights.
+3. 
